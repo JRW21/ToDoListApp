@@ -1,0 +1,19 @@
+{% extends 'base.html' %}<!--Needs to go on every page we want to extend the base template on-->
+
+{% block title %}To-Do List | Edit Item{% endblock %}<!--If no block (name of block)is not defined the default in the base page will be used-->
+
+{% block content %}
+    {% if item %}
+        <form class="form-inline my-2 my-lg-0", method= "POST"> <!--This is where the form begins--><!--method = "POST" : This is the action the form will complete-->
+            {% csrf_token %}<!--This is a security thing that django requires when using a form-->
+            <input class="form-control mr-sm-2" type="search" placeholder="{{item.item}}" value ="{{item.item}}" aria-label="Search", name="item">
+            <button class="btn btn-outline-secondary my-2 my-sm-0" type="submit">Edit item</button>
+        
+        <input type="hidden" value="{{ item.completed }}" name="completed"><!-- Without this the item would be defaulted to false due to our models.py default for List.completed-->
+        </form>
+
+
+
+    {% endif %}
+
+{% endblock %}

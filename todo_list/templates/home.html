@@ -1,0 +1,54 @@
+{% extends 'base.html' %}<!--Needs to go on every page we want to extend the base template on-->
+
+{% block title %}To-Do List{% endblock %}<!--If no block (name of block)is not defined the default in the base page will be used-->
+
+{% block content %}
+{{ all_items }}
+{% if messages %}
+    {% for message in messages %}
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            {{message}}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    {% endfor %}
+{% endif %}
+    {% if all_items %}
+    <table class="table table-bordered"><!-- <table> This is to create a table-->
+        <thead>
+            <tr>
+                <th scope ="col"><center>Task</center></th>
+                <th scope ="col"><center>Completed</center></th>
+                <th scope ="col"><center>Delete</center></th>
+
+            </tr>
+        </thead>
+
+        {% for things in all_items %}<!-- Looping through data in the tbale-->
+            {% if things.completed %}
+                <tr class = "table-secondary">
+                    <td class="striker"><a href="{% url 'edit' things.id %}">{{ things.item }}</a></td> <!--class = "striker comes from css we created"-->
+                    <td><center><a href="{% url 'uncross' things.id %}">Uncross</a></center></td>
+                    <td><center><a href="{% url 'delete' things.id %}">Delete</a></center></td> <!--Delete is the thing that shows up but the <a href="{% url 'delete' things.id %}"> creates the link-->
+                </tr>
+            {% else %}
+                <tr>
+                    <td><a href="{% url 'edit' things.id %}">{{ things.item }}</a></td>
+                    <td><center><a href="{% url 'cross_off' things.id %}">Cross Off</a></center></td>
+                    <td><center><a href="{% url 'delete' things.id %}">Delete</a></center></td>
+                </tr>
+            {% endif %}
+        {% endfor %}
+        </table>    
+    {% endif %}
+{% endblock %}
+
+
+<!--
+<ul> <ul> THis is an unordered list tag in HTML
+    {% for things in all_items %} #Looping through data in the tbale
+        <li>{{ things.item }} | {{ things.completed}}</li>
+    {% endfor %}
+</ul> 
+-->
